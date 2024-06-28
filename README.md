@@ -1,5 +1,8 @@
 # GTFS Converter and Analyzer
 
+![Screenshot of the TkinterUI of the app showing 2 buttons in a column, one to upload a GTFS file and one to upload a database ](/assets/images/TkinterUI.jpg)
+![Screenshot of the Flask UI showing the landing page ](/assets/images/Flask_UI.jpg)
+
 ## Overview
 The GTFS Converter and Analyzer is a Python/js application designed to work with static General Transit Feed Specification (GTFS) data. It offers two primary functionalities:
 
@@ -46,15 +49,23 @@ It is recommended to install this application in a virtual environment.
 2. Click the button to upload a GTFS zip file.
 3. Choose a name for the output database file when prompted.
 4. Wait for the conversion process to complete. Note: The progress bar may pause at 75% during processing of the largest table.
+You can look at the terminal to see how many rows it found and have a better understanding of the data size.
+![Screenshot of the terminal window showing info about tables and rows found ](/assets/images/terminal.jpg)
 
 ### Data Analysis
 1. Select an existing database and wait for it to load, the flask server window should open automatically in your browser
+![Screenshot of the Flask UI showing the landing page ](/assets/images/Flask_UI.jpg)
 2. The map tab lets you search for stops or routes and show it on map with markers. When selected, the routes will show the line connecting every stop
+![Screenshot of the Flask UI showing a selected route and a line connecting all stops on the map ](/assets/images/polyline.jpg)
 3. Use the web interface to:
    - Search for stops and routes
    - View stops and route lines on the map  (requires Google Maps API key)
    - Analyze route statistics with chart.js, including weekday trip frequencies and average estimated trip durations
-
+![Screenshot of the Flask UI showing the statistics page with bar and round charts ](/assets/images/route_statistics.png)
+P.S.
+You can find additional info regarding the selected route inside Dev console
+![Screenshot of the Dev console showing data on selected stops/routes ](/assets/images/devconsole1.jpg)
+![Screenshot of the Dev console showing data on selected stops/routes ](/assets/images/devconsole2.jpg)
 ## Performance Considerations
 - For large datasets (15-20 million rows and over), conversion may be time-consuming but it shouldnt take more than 2-3 minutes at most.
 - The application uses ThreadPoolExecutor for parallel file reading and a QueuePool for efficient database insertion to optimize performance.
