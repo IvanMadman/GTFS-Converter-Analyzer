@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Analysis App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+	<script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&loading=async&callback=initMap" defer></script>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tab-button" onclick="openTab('mapTab')">Map</button>
+        <button class="tab-button" onclick="openTab('statistics')">Statistics</button>
+    </div>
+    <div id="mapTab" class="tab-content">
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search for stops or bus lines">
+            <button id="search-button">Search</button>
+            <ul id="search-results"></ul>
+        </div>
+        <div id="map"></div>
+    </div>
+	<div id="statistics" class="tab-content">
+    <h2 id="route-title">Route Statistics</h2>
+    <div class="statistics-container">
+        <div class="search-results-container">
+            <input type="text" id="statistics-search" placeholder="Search for routes">
+            <button id="statistics-search-btn">Search</button>
+            <ul id="statistics-results"></ul>
+        </div>
+		
+        <div class="charts-container">
+
+            <div class="chart-container">
+                <canvas id="tripsByDayChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="avgRouteTimeChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+	
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>	
+       <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
