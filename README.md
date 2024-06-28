@@ -73,4 +73,6 @@ The application is designed to be flexible. Users can modify `database.py` and `
 Contributions to improve the GTFS Converter and Analyzer are welcome. Please feel free to submit pull requests or open issues for bugs and feature requests.
 
 ## License
-[]
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
