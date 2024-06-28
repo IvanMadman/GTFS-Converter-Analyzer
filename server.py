@@ -107,7 +107,7 @@ def reload_config():
             # Update the database URI in the app config
             app.config['SQLALCHEMY_DATABASE_URI'] = new_db_uri
             
-            # Remove the current session
+            
             db.session.remove()
             
             # Dispose of the current engine
@@ -116,13 +116,10 @@ def reload_config():
             # Create a new engine
             engine = create_engine(new_db_uri)
             
-            # Reconfigure the session
+            # Reconfigure the session and bind the new engine to the metadata
             db.session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
-            
-            # Bind the new engine to the metadata
             db.metadata.bind = engine
             
-            # Create all tables in the new database
             db.create_all()
         
         return jsonify({"message": "Database reloaded successfully"}), 200
@@ -137,7 +134,7 @@ def get_stops():
         return jsonify({'error': 'Missing route_id parameter'}), 400
 
     try:
-        # Step 1: Find the first trip_id for the given route_id and direction_id
+        # Find the first trip_id for the given route_id and direction_id
         first_trip = (db.session.query(Trip)
                       .filter(Trip.route_id == route_id, Trip.direction_id == 0)
                       .order_by(Trip.trip_id)
@@ -148,7 +145,7 @@ def get_stops():
 
         first_trip_id = first_trip.trip_id
 
-        # Step 2: Query stops associated with the first trip_id
+        # Query stops associated with the first trip_id
         stops = (db.session.query(Stop.stop_id, Stop.stop_name, Stop.stop_lat, Stop.stop_lon)
                  .join(StopTime, Stop.stop_id == StopTime.stop_id)
                  .filter(StopTime.trip_id == first_trip_id)
