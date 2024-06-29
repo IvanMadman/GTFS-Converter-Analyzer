@@ -85,7 +85,7 @@ class App:
         finally:
             self.hide_progress_bar()
 
-
+    #We want this to be static to be 100% sure it works
     @staticmethod
     def is_flask_server_running(url='http://127.0.0.1:5000'):
             try:
@@ -118,7 +118,7 @@ class App:
             flask_process = subprocess.Popen(['python', 'server.py'])
 
     
-
+    #the sleep time should be enough for the server to start, feel free to modify it
     def upload_db_file(self):
             db_path = filedialog.askopenfilename(filetypes=[("Database files", "*.db")])
             if db_path:
