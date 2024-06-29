@@ -86,6 +86,7 @@ class StopTime(db.Model):
 def index():
     return render_template('index.html', api_key=GOOGLE_MAPS_API_KEY)
 
+# Simple search, gets all the routes and stops and returns it
 @app.route('/search', methods=['POST'])
 def search():
     data = request.get_json()
@@ -96,6 +97,9 @@ def search():
     routes_data = [{'route_id': route.route_id, 'route_short_name': route.route_short_name, 'route_long_name': route.route_long_name} for route in routes]
     return jsonify({'stops': stops_data, 'routes': routes_data})
 
+
+# This function it's used if the user selects another database while the server it's running,
+# it will remove the existing one, reload and launch a new browser window
 @app.route('/reload', methods=['POST'])
 def reload_config():
     data = request.json
@@ -126,7 +130,7 @@ def reload_config():
     else:
         return jsonify({"error": "No db_path provided"}), 400
 
-
+#This gets a list of stops associated with the route_id sent
 @app.route('/stops', methods=['GET'])
 def get_stops():
     route_id = request.args.get('route_id')
@@ -135,6 +139,7 @@ def get_stops():
 
     try:
         # Find the first trip_id for the given route_id and direction_id
+        # We choose only one direction supposing the number should be more or less the same on both
         first_trip = (db.session.query(Trip)
                       .filter(Trip.route_id == route_id, Trip.direction_id == 0)
                       .order_by(Trip.trip_id)
@@ -164,7 +169,8 @@ def get_stops():
         return jsonify({'error': f'An error occurred while retrieving stops: {e}'}), 500
 
 
-
+# Here we analyze the data related to the route_id received, it can probably be 
+# optimized more splitting it in multiple parts for better code understanding
 @app.route('/route_info', methods=['GET'])
 def route_info():
     route_id = request.args.get('route_id')
@@ -192,7 +198,8 @@ def route_info():
 
         trip_times = defaultdict(lambda: {'start_time': None, 'end_time': None})
         service_ids = {}
-
+        # every time it finds a time where hours are 24+ it converts it 
+        # So 25 becomes 01, 26-02 and so on
         def parse_time(time_str):
             hours, minutes, seconds = map(int, time_str.split(':'))
     
