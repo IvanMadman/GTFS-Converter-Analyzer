@@ -11,6 +11,8 @@ from tkinter import filedialog, messagebox
 
 logger = logging.getLogger(__name__)
 
+
+# Setting low_memory to False it's not the BEST solution, but it works and should be enough for this context
 def read_csv_file(file_path, file_name):
     try:
         df = pd.read_csv(file_path, low_memory=False)
@@ -23,12 +25,12 @@ def read_csv_file(file_path, file_name):
         logger.error(f"Error reading file {file_name}: {e}")
         return None
 
-
+# Before creating the file we ask for a name and check if there's one already
 def get_database_engine():
     root = tk.Tk()
     root.withdraw()  # Hide the main window
 
-    # Prompt the user to select a file location to save the database
+   
     db_path = filedialog.asksaveasfilename(defaultextension=".db", filetypes=[("SQLite database files", "*.db")])
     
     if not db_path:
@@ -36,7 +38,7 @@ def get_database_engine():
         return None
     
     if os.path.exists(db_path):
-        # Ask for confirmation to overwrite if the file already exists
+     
         if not messagebox.askyesno("Overwrite Confirmation", f"The file '{db_path}' already exists. Do you want to replace it?"):
             print("Operation cancelled.")
             return None
@@ -50,7 +52,8 @@ def get_database_engine():
 
 
 
-
+# Right now if you want to grab more files you have to add it manually here and also in the database.py file
+# I'll update this part with logic to get the file list during the zip extraction instead of expliciting it
 def process_gtfs_file(zip_path, progress_callback):
     temp_dir = "temp_gtfs"
     
