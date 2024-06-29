@@ -108,6 +108,9 @@ def create_tables(engine):
     
     metadata.create_all(engine)
 
+# Before inserting the data we filter it to only get the tables/rows listed above here
+# The processing speed of this part can probably be enhanced  with some optimizations
+
 def insert_data(engine, dataframes):
     global metadata
     
