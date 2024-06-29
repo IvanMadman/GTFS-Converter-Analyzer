@@ -13,6 +13,8 @@ metadata = MetaData()
 
 #The app will only grab those tables and columns from the GTFS files, if you need more you can add it here.
 #Everything not listed here will be skipped
+#At the moment you also have to add the needed txt files in the list you can find in gtfs_processor.py
+# but I'll modify that soon
 
 def create_tables(engine):
     global metadata
